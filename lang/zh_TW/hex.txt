@@ -1,5 +1,5 @@
 # Global Property
-title-text: "按[Q]退出 按[N]修改編碼"
+title-text: "按[Q]退出"
 title-color: "#ffffff"
 message-color: "#333333"
 message-bg-color: "#f2f2f2"

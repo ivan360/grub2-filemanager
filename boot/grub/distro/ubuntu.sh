@@ -1,7 +1,6 @@
 set icon="ubuntu";
 set vmlinuz_img="(loop)/casper/vmlinuz*";
 set initrd_img="(loop)/casper/initrd*";
-set linux_extra="iso-scan/filename=${isofile}";
 function CHSLocale {
 	echo "是否使用简体中文？按[Y]选择简体中文，按其他键使用默认语言。";
 	getkey key;
@@ -9,7 +8,7 @@ function CHSLocale {
 		kcmdline="${kcmdline} locale=zh_CN.UTF-8";
 	fi;
 }
-menuentry $"Boot Ubuntu From ISO" --class $icon{
+menuentry $"Ubuntu Live" --class $icon{
 	set kcmdline="boot=casper noprompt noeject";
 	if [ "${lang}" == "zh_CN" ]; then
 		CHSLocale;
@@ -17,7 +16,7 @@ menuentry $"Boot Ubuntu From ISO" --class $icon{
 	linux $vmlinuz_img $kcmdline $linux_extra;
 	initrd $initrd_img;
 }
-menuentry $"Boot Ubuntu From ISO (persistent)" --class $icon{
+menuentry $"Ubuntu Live (persistent)" --class $icon{
 	set kcmdline="boot=casper noprompt noeject persistent";
 	if [ "${lang}" == "zh_CN" ]; then
 		CHSLocale;

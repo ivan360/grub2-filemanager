@@ -14,29 +14,22 @@
 --
 -- You should have received a copy of the GNU General Public License
 -- along with Grub2-FileManager.  If not, see <http://www.gnu.org/licenses/>.
-local file = grub.getenv ("file_name")
---B KiB MiB GiB
-function div1024 (file_size, unit)
-	part_int = file_size / 1024
-	part_f1 = 10 * ( file_size % 1024 ) / 1024
-	part_f2 =  10 * ( file_size % 1024 ) % 1024
-	part_f2 = 10 * ( part_f2 % 1024 ) / 1024
-	str = part_int .. "." .. part_f1 .. part_f2 .. unit
-	return part_int, str
+local file = grub.getenv ("file")
+encoding = grub.getenv ("encoding")
+if (encoding == nil) then
+	encoding = "utf8"
 end
-
 if (file == nil) then
 	return 1
 else
-	file_data = grub.file_open (file)
-	file_size = grub.file_getsize (file_data)
-	str = file_size .. "B"
-	for i,unit in ipairs ({"KiB", "MiB", "GiB", "TiB"}) do
-		if (file_size < 1024) or (unit == "TiB") then
-			break;
-		else
-			file_size, str = div1024 (file_size, unit)
+	data = grub.file_open(file)
+	while (grub.file_eof(data) == false)
+	do
+		line = grub.file_getline (data)
+		if (encoding == "gbk") then
+			line = grub.toutf8(line)
 		end
+		grub.add_menu ("echo;", line)
 	end
+	return 0
 end
-grub.setenv ("file_size", str)

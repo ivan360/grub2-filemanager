@@ -39,7 +39,7 @@ menuentry $"Sort files by name: $enable_sort" --class settings {
 	configfile $prefix/settings.sh;
 }
 submenu $"Resolution (R):  $gfxmode" --class settings --hotkey=r {
-	terminal_output console
+	terminal_output console;
 	menuentry "[0] AUTO DETECT" --hotkey=0{
 		setgfx "auto";
 	}
@@ -68,11 +68,20 @@ submenu $"Resolution (R):  $gfxmode" --class settings --hotkey=r {
 		setgfx "2160x1440";
 	}
 }
+menuentry $"Enable debug messages: $debug" --class settings {
+	if [ "$debug" = "all" ]; then
+		debug="";
+	else
+		debug="all";
+	fi
+	export debug;
+	configfile $prefix/settings.sh;
+}
 if regexp 'efi' "$grub_platform"; then
 	menuentry $"EFI Firmware Setup" --class settings {
 		fwsetup;
 	}
 fi
 menuentry $"Back" --class go-previous {
-	configfile $prefix/main.sh;
+	configfile $prefix/clean.sh;
 }
